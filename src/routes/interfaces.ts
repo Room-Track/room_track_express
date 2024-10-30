@@ -19,7 +19,7 @@ router.use(authorization); */
 router.get('/search', getQuerySpecI('ISearch'), async (req: Request, res) => {
 	const client: CosmosClient = req.app.get('client');
 	try {
-		const resData = getISearchArr(
+		const resData = await getISearchArr(
 			client,
 			req.querySpec!.fields,
 			req.querySpec!.parameters
@@ -43,7 +43,7 @@ router.get('/ref', getQuerySpecI('IRef'), async (req: Request, res) => {
 	}
 	const client: CosmosClient = req.app.get('client');
 	try {
-		const resData = getIRef(
+		const resData = await getIRef(
 			client,
 			req.query['name'].toString(),
 			req.querySpec!.fields,
