@@ -11,8 +11,43 @@ export async function getISearchArr(
 ) {
 	const { resources } = await query(client, 'Places', {
 		query:
-			'SELECT *  FROM r WHERE ' +
+			'SELECT * FROM r WHERE ' +
 			getQueryFromFieldsObj(fields, ['name', 'type'], [true, false]),
+		parameters: parameters,
+	});
+	return resources.map((doc) => toISearch(doc));
+}
+
+export async function getISearchArrLevelRef(
+	client: CosmosClient,
+	fields: Object,
+	parameters?: SqlParameter[]
+) {
+	if (parameters) {
+		const idx = parameters.findIndex((el) => el.name == '@level');
+		if (idx != -1) {
+			const element = parameters.at(idx);
+			parameters.at(idx)!.value = Number(element?.value);
+		}
+	}
+	const { resources } = await query(client, 'Places', {
+		query:
+			'SELECT * FROM r WHERE ' +
+			getQueryFromFieldsObj(fields, ['level', 'ref'], [false, false]),
+		parameters: parameters,
+	});
+	return resources.map((doc) => toISearch(doc));
+}
+
+export async function getISearchArrType(
+	client: CosmosClient,
+	fields: Object,
+	parameters?: SqlParameter[]
+) {
+	const { resources } = await query(client, 'Places', {
+		query:
+			'SELECT * FROM r WHERE ' +
+			getQueryFromFieldsObj(fields, ['type'], [false]),
 		parameters: parameters,
 	});
 	return resources.map((doc) => toISearch(doc));

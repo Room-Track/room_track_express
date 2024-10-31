@@ -66,7 +66,7 @@ export function getQueryFromFieldsObj(
 export function getInterfaceFields(inter: ServerINameType) {
 	switch (inter) {
 		case 'ISearch':
-			return ['name', 'type'];
+			return ['name', 'type', 'level', 'ref'];
 		case 'IRef':
 			return ['name', 'lowestF', 'highestF', 'lat', 'lng'];
 		case 'IInfo':
